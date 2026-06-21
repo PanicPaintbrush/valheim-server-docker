@@ -109,14 +109,14 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/community-valheim-tools/valheim-server
+            ghcr.io/PanicPaintbrush/valheim-server
           tags: |
             type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
             type=semver,pattern={{version}}
@@ -125,8 +125,8 @@ jobs:
             org.opencontainers.image.title=valheim-server
             org.opencontainers.image.description=Valheim Server
             org.opencontainers.image.licenses=Apache-2.0
-            org.opencontainers.image.source=https://github.com/community-valheim-tools/valheim-server-docker
-            org.opencontainers.image.documentation=https://github.com/community-valheim-tools/valheim-server-docker/blob/main/README.md
+            org.opencontainers.image.source=https://github.com/PanicPaintbrush/valheim-server-docker
+            org.opencontainers.image.documentation=https://github.com/PanicPaintbrush/valheim-server-docker/blob/main/README.md
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -146,7 +146,7 @@ jobs:
           gh release create "${{ github.ref_name }}" --generate-notes --notes-start-tag "$(cat <<'EOF'
           ## Container Image
           ```
-          docker pull ghcr.io/community-valheim-tools/valheim-server:${{ steps.meta.outputs.version }}
+          docker pull ghcr.io/PanicPaintbrush/valheim-server:${{ steps.meta.outputs.version }}
           ```
           EOF
           )"
